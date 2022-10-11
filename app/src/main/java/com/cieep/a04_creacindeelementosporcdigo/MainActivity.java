@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     // Los datos
     private ArrayList<Alumno> alumnosList;
     // Lógica para montar los elementos en contenedor
+    // Una plantilla para mostrar los elementos
 
 
     @Override
@@ -85,9 +87,18 @@ public class MainActivity extends AppCompatActivity {
     private void pintarElementos() {
         binding.content.contenerdorMain.removeAllViews();
         for (Alumno alumno : alumnosList) {
-            TextView alumnoTxt = new TextView(this);
-            alumnoTxt.setText(alumno.toString());
-            binding.content.contenerdorMain.addView(alumnoTxt);
+            // Construimos un Layout para cada fila de alumnos
+            View alumnoView = LayoutInflater.from(MainActivity.this).inflate(R.layout.alumno_model_view, null);
+            // Tomo poasesión de los elementos de la Vista de la fila de Alumno
+            TextView lblNombre = alumnoView.findViewById(R.id.lblNombreAlumnoModelView);
+            TextView lblApellidos = alumnoView.findViewById(R.id.lblApellidosAlumnoModelView);
+            TextView lblCiclo = alumnoView.findViewById(R.id.lblCicloAlumnoModelView);
+            TextView lblGrupo = alumnoView.findViewById(R.id.lblGrupoAlumnoModelView);
+            lblNombre.setText(alumno.getNombre());
+            lblApellidos.setText(alumno.getApellidos());
+            lblCiclo.setText(alumno.getCiclo());
+            lblGrupo.setText(String.valueOf(alumno.getGrupo()));
+            binding.content.contenerdorMain.addView(alumnoView);
         }
     }
 
